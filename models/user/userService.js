@@ -75,11 +75,19 @@ const updateFcmToken = async (_idUser, tokenFcm) => {
 const register = async (username, email, password, name, birthday, numberPhone, avatar) => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
-    const user_server = await user_model.findOne({ 'email': email });
-    const user_server2 = await user_model.findOne({ 'username': username });
-    if (user_server != null || user_server2 != null) {
+    let user_server = null;
+    if(email == null) {
+        user_server = await user_model.findOne({ username });
+    }
+    if(username == null) {
+        user_server = await user_model.findOne({ email });
+    }
+
+    console.log('user_server: ', user_server);
+    
+    if (user_server) {
         return;
-    } else {
+    } else  {
         if (username == null) {
             if (email == "" || password == "") {
                 return;
@@ -88,11 +96,12 @@ const register = async (username, email, password, name, birthday, numberPhone, 
                 await user.save();
                 return user;
             }
-        } else {
+        } 
+        if(email == null) {
             if (username == "" || password == "") {
                 return;
             } else {
-                const user = new user_model({ username, email, password: hash, name, birthday, numberPhone, avatar, loginType: 'username' });
+                const user = new user_model({ username, email: null, password: hash, name, birthday, numberPhone, avatar, loginType: 'username' });
                 await user.save();
                 return user;
             }
