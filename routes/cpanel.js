@@ -74,4 +74,13 @@ router.post('/', async function (req, res, next) {
     }
 });
 
+//---------------------------------Home---------------------------------
+router.get('/home', checkAccessTokenMiddleware, async function (req, res, next) {
+    try {
+        res.render('home', { title: 'iTech - Admin home' });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 module.exports = router;
