@@ -114,8 +114,8 @@ const forgot_password = async (email) => {
                 from: '',
                 to: email,
                 subject: 'Reset password',
-                //html: `<h1>Click <a href="http://localhost:3000/users/cpanel/reset-password/${user.resetPasswordToken}">here</a> to reset password</h1>`
-                html: `<h1>Click <a href="https://itech-server-datn.onrender.com/users/cpanel/reset-password/${user.resetPasswordToken}">here</a> to reset password</h1>`
+                html: `<h1>Click <a href="http://localhost:3000/users/cpanel/reset-password/${user.resetPasswordToken}">here</a> to reset password</h1>`
+                //html: `<h1>Click <a href="https://itech-server-datn.onrender.com/users/cpanel/reset-password/${user.resetPasswordToken}">here</a> to reset password</h1>`
             };
             await transporter.sendMail(mailOptions);
             return true;

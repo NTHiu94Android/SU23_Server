@@ -4,7 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var session = require('express-session')
+
 var app = express();
+
+app.use(session({
+  secret: 'itech_webadmin_secret_key',
+  resave: false,
+  saveUninitialized: true
+}))
 
 //Connect db from config/db
 const db = require('./config/db');
@@ -38,6 +46,11 @@ app.use('/products', require('./routes/products'));
 app.use('/promotions', require('./routes/promotions'));
 app.use('/reviews', require('./routes/reviews'));
 app.use('/sub-products', require('./routes/sub-products'));
+app.use('/', require('./routes/cpanel'));
+
+
+//CKEditor
+app.use('/ckeditor', express.static(__dirname + '/node_modules/ckeditor'));
 
 
 
