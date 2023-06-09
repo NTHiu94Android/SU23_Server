@@ -1,15 +1,332 @@
-<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/apple-icon.png">
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <title>
+        iTech - Admin Dashboard
+    </title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Nucleo Icons -->
+    <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link id="pagestyle" href="../assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
 </head>
-<body>
-    <div>
-        <h1>Home</h1>
-        <p>Home page content</p>
-    </div>
+
+<body class="g-sidenav-show   bg-gray-100">
+    <div class="min-height-300 bg-primary position-absolute w-100"></div>
+    <aside
+        class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 "
+        id="sidenav-main">
+        <div class="sidenav-header">
+            <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+                aria-hidden="true" id="iconSidenav"></i>
+            <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html "
+                target="_blank">
+                <img src="images/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
+                <span class="ms-1 font-weight-bold">iTech</span>
+            </a>
+        </div>
+        <hr class="horizontal dark mt-0">
+        <div class="  w-auto " id="sidenav-collapse-main">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/home">
+                        <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Trang chủ</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="/categories">
+                        <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Loại sản phẩm</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="/brands">
+                        <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Thương hiệu</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="/products">
+                        <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Sản phẩm</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="/sub-product">
+                        <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="ni ni-collection text-info text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Chi tiết sản phẩm</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="/customers">
+                        <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Khách hàng</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="/orders">
+                        <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="ni ni-app text-info text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Đơn hàng</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="/profile.html">
+                        <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Profile</span>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+
+    </aside>
+
+    <main>
+        Trang chủ
+    </main>
+
+    <!--   Core JS Files   -->
+    <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/core/bootstrap.min.js"></script>
+    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="../assets/js/plugins/chartjs.min.js"></script>
+
+    <script>
+        var users = $('#total-users');
+        var products = $('#total-products');
+        var orders = $('#total-orders');
+        var sold = $('#total-sold');
+        var total10 = $('#total-10');
+        var dateToday = $('#date-today');
+        var totalToday = $('#total-today');
+        dateToday.text('');
+        totalToday.text(0);
+        total10.text('0 vnd');
+        users.text(0)
+        products.text(0)
+        orders.text(0)
+        sold.text(0)
+
+
+        //thong ke user
+        function GetUsers() {
+            return fetch('http://localhost:3001/customers/get-all')
+                .then(response => response.json())
+                .then(data => {
+                    return data;
+                })
+        };
+
+        async function OnGetUsers() {
+            let usersArr = await GetUsers();
+            var usersNumber = 1;
+            usersNumber = usersArr.length;
+            users.text(usersNumber)
+        }
+        OnGetUsers();
+
+        //thong ke san pham
+        function GetProducts() {
+            return fetch('http://localhost:3001/products/get-all')
+                .then(response => response.json())
+                .then(data => {
+                    return data;
+                })
+        };
+
+        async function OnGetProducts() {
+            let proArr = await GetProducts();
+            var proNumber = 1;
+            proNumber = proArr.length;
+            products.text(proNumber)
+        }
+        OnGetProducts();
+
+        // thong ke tong don hang
+        function GetOrdersAll() {
+            return fetch('http://localhost:3001/orders/all/get')
+                .then(response => response.json())
+                .then(data => {
+                    return data;
+                })
+        };
+
+        async function OnGetOrdersAll() {
+            let ordersArr = await GetOrdersAll();
+            var ordersNumber = 0;
+            ordersNumber = ordersArr.length;
+            orders.text(ordersNumber)
+        }
+        OnGetOrdersAll();
+
+        // thong ke don hang thanh cong
+        function GetOrdersSold() {
+            return fetch('http://localhost:3001/orders/sold/get')
+                .then(response => response.json())
+                .then(data => {
+                    return data;
+                })
+        };
+
+        async function OnGetOrdersSold() {
+            let soldArr = await GetOrdersSold();
+            var soldNumber = 0;
+            soldNumber = soldArr.length;
+            sold.text(soldNumber)
+        }
+        OnGetOrdersSold();
+
+
+        // thong ke 10 ngay
+        function GetAnal10Days() {
+            return fetch('http://localhost:3001/orders/10days/get/')
+                .then(response => response.json())
+                .then(data => {
+                    return data;
+                })
+        };
+
+        async function OnGetAnal10Days() {
+            var orders1 = await GetAnal10Days();
+            var totalMoney = orders1.reduce((acc, element) => {
+                return acc + element.total;
+            }, 0);
+
+            total10.text(convertVND(totalMoney));
+            var days = orders1.map(item => {
+                return item.day;
+            })
+            var days = orders1.map(item => {
+                return item.day;
+            })
+            var totals = orders1.map(item => {
+                return item.total;
+            })
+
+            var totalIncomeChart = document.getElementById('totalIncomeChart').getContext('2d');
+            var mytotalIncomeChart = new Chart(totalIncomeChart, {
+                type: 'bar',
+                data: {
+                    labels: days,
+                    datasets: [{
+                        label: "Doanh thu",
+                        backgroundColor: '#ff9e27',
+                        borderColor: 'rgb(23, 125, 255)',
+                        data: totals,
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    legend: {
+                        display: false,
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                display: false //this will remove only the label
+                            },
+                            gridLines: {
+                                drawBorder: false,
+                                display: false
+                            }
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                drawBorder: false,
+                                display: false
+                            }
+                        }]
+                    },
+                }
+            });
+        }
+        OnGetAnal10Days();
+
+        //thong ke hom nay
+        function GetIncomeToday() {
+            return fetch('http://localhost:3001/orders/today/get/')
+                .then(response => response.json())
+                .then(data => {
+                    return data;
+                })
+        };
+
+        async function OnGetIncomeToday() {
+            let moneyToday = await GetIncomeToday();
+            let total = moneyToday.reduce((acc, element) => {
+                return acc + element.total;
+            }, 0);
+            totalToday.text(convertVND(total));
+            dateToday.text(new Date(moneyToday[0].updatedAt).toDateString())
+        }
+        OnGetIncomeToday();
+
+
+
+        //format number
+        function convertVND(text) {
+            return text.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+        }
+
+
+    </script>
+    <script>
+        var win = navigator.platform.indexOf('Win') > -1;
+        if (win && document.querySelector('#sidenav-scrollbar')) {
+            var options = {
+                damping: '0.5'
+            }
+            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+        }
+    </script>
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
 </body>
+
 </html>
