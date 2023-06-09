@@ -6,14 +6,12 @@ const get_all_category = async () => {
     return categories;
 };
 
-//Them category
-const add_category = async (name, image) => {
-    const category = new category_model({
-        name: name,
-        image: image
-    });
-    await category.save();
-    return category;
+// lays category by id 
+const get_category_by_id = async (_id) => {
+    const category = await category_model.findOne({_id : _id});
+    return category ;
 };
 
-module.exports = { get_all_category, add_category };
+
+
+module.exports = { get_all_category, get_category_by_id };

@@ -10,16 +10,28 @@ const get_brand_by_id_category = async (_idCategory) => {
     }
 };
 
-// add brand
-const add_brand = async (name, image, idCategory) => {
+
+// Lay danh sach brand 
+const get_all_brand = async () => {
     try {
-        const brand = await brand_service.add_brand(name, image, idCategory);
+        const brands = brand_service.get_all_brand();
+        return brands;
+    } catch (error) {
+        console.log('Error get all brand: ' + error.message);
+    }
+};
+
+
+// lay brand theo id 
+const get_brand_by_id = async (_id) => {
+    try {
+        const brand = await brand_service.get_brand_by_id(_id);
         return brand;
     } catch (error) {
-        console.log('Error add brand: ' + error.message);
+        console.log('Error get brand: ' + error.message);
     }
 };
 
 module.exports = {
-    add_brand, get_brand_by_id_category
+    get_brand_by_id_category, get_all_brand, get_brand_by_id
 };
