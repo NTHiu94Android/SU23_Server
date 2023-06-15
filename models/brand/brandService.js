@@ -15,9 +15,26 @@ const get_brand_by_id_category = async (id) => {
     const brands = await brand_model.find({ idCategory: id });
     return brands;
 };
-
-
+// update brand
+const update_brand = async (id, name, image, idCategory) => {
+    const brand = await brand_model.findById(id);
+    brand.name = name;
+    brand.image = image;
+    brand.idCategory = idCategory;
+    await brand.save();
+    return brand;
+};
+// delete brand
+const delete_brand = async (id) => {
+    await brand_model.findByIdAndDelete(id);
+};
+// add brand
+const add_brand = async (name, image, idCategory) => {
+    const brand = new brand_model({ name, image, idCategory });
+    await brand.save();
+    return brand;
+};
 module.exports = {
-    get_brand_by_id_category , get_all_brand, get_brand_by_id
+    get_brand_by_id_category, add_brand , get_all_brand, update_brand, delete_brand, get_brand_by_id
 }
 

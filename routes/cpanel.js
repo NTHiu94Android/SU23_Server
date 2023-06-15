@@ -125,7 +125,7 @@ router.get('/categories/insert', checkAccessTokenMiddleware, async function (req
 });
 router.post('/categories/insert', checkAccessTokenMiddleware, multer.single('picture'), async function (res, req) {
     try {
-        const {name} = req.body;
+        const { name } = req.body;
         const result = await cloudinary.uploader.upload(req.file.path);
         const image = result.secure_url;
         if (!name || !image) {
@@ -133,8 +133,8 @@ router.post('/categories/insert', checkAccessTokenMiddleware, multer.single('pic
             return;
         }
         const category = await category_controller.add_category(name, image);
-        if(!category){
-            res.status(401).render('Error', {message:'Not authorization'});
+        if (!category) {
+            res.status(401).render('Error', { message: 'Not authorization' });
             return;
         }
         res.redirect('/categories')
@@ -145,12 +145,12 @@ router.post('/categories/insert', checkAccessTokenMiddleware, multer.single('pic
 });
 
 // update category
-router.get('/categories/:_id/update', checkAccessTokenMiddleware, async function (req, res){
+router.get('/categories/:_id/update', checkAccessTokenMiddleware, async function (req, res) {
     try {
         const categories = await category_controller.get_all_category();
-        for(let i = 0 ; i< categories.length; i++){
+        for (let i = 0; i < categories.length; i++) {
             if (categories[i]._id == req.params._id) {
-                res.render('category-update', {title: 'iTech - Category', category : categories[i]});
+                res.render('category-update', { title: 'iTech - Category', category: categories[i] });
                 return;
             }
         }
@@ -184,7 +184,7 @@ router.post('/categories/:_id/update', checkAccessTokenMiddleware, multer.single
 
 //---------------------------------Brands---------------------------------
 // Danh sach brand 
-router.get('/brands', checkAccessTokenMiddleware, async function (req, res, next) {
+router.get('/brands', checkAccessTokenMiddleware, async function (req, res) {
     try {
         const brands = await brand_controller.get_all_brand();
         if (!brands) {
@@ -198,6 +198,102 @@ router.get('/brands', checkAccessTokenMiddleware, async function (req, res, next
             list.push(brands[i]);
         }
         res.render('brands', { title: 'iTech - Brand', brands: list });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+// Updae brand
+router.get('/brands/:_id/update', checkAccessTokenMiddleware, async function (req, res) {
+    try {
+        const brand = await brand_controller.get_brand_by_id(req.params._id);
+        const categories = await category_controller.get_all_category();
+        if (!brand || !categories) {
+            res.status(401).render('Error', { message: 'Not authorization' });
+            return;
+        }
+        if (categories) {
+            for (let i = 0; i < categories.length; i++) {
+                if (categories[i]._id == brand.idCategory) {
+                    categories[i].isSelected = true;
+                } else {
+                    categories[i].isSelected = false;
+                }
+            }
+        }
+        res.render('brand-update', { title: 'iTech - Brand', brand: brand, categories: categories });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+router.post('/brands/:_id/update', checkAccessTokenMiddleware, multer.single('picture'), async function (req, res) {
+    try {
+        const { _id } = req.params;
+        const { name, idCategory } = req.body;
+        const result = await cloudinary.uploader.upload(req.file.path);
+        const image = result.secure_url;
+        if (!name || !image || !_id || !idCategory) {
+            res.status(401).render('Error', { message: 'Not authorization' });
+            return;
+        }
+        const brand = await brand_controller.update_brand(_id, name, image, idCategory);
+        if (!brand) {
+            res.status(401).render('Error', { message: 'Not authorization' });
+            return;
+        }
+        res.redirect('/brands');
+
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+//Delete
+router.get('/brands/:_id/delete', checkAccessTokenMiddleware, async function (req, res) {
+    try {
+        const { _id } = req.params;
+        if (!_id) {
+            res.status(401).render('Error', { message: 'Not authorization' });
+            return;
+        } else {
+            await brand_controller.delete_brand(_id);
+            res.json({ status: true });
+        }
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+//inseert brands
+router.get('/brands/insert', checkAccessTokenMiddleware, async function (req, res) {
+    try {
+        const categories = await category_controller.get_all_category();
+        res.render('brand-insert', { title: 'iTech - Brand insert', categories: categories });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+router.post('/brands/insert', checkAccessTokenMiddleware, multer.single('picture'), async function (req, res) {
+    try {
+        const { name, idCategory } = req.body;
+        if (!req.file) {
+            res.status(401).redirect('/brands/insert');
+            return;
+        }
+        const result = await cloudinary.uploader.upload(req.file.path);
+        const image = result.secure_url;
+        //console.log('Info: ', name, image, idCategory, idBrand);
+        if (!name || !image || !idCategory) {
+            res.status(401).redirect('/brands/insert')
+            return;
+        }
+        const brand = await brand_controller.add_brand(name, image, idCategory);
+        if (!brand) {
+            res.status(401).render('Error', { message: 'Not authorization' });
+            return;
+        }
+        res.redirect('/brands');
     } catch (error) {
         res.status(500).send(error.message);
     }
