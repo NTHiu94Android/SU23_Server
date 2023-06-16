@@ -32,6 +32,36 @@ const get_brand_by_id = async (_id) => {
     }
 };
 
-module.exports = {
-    get_brand_by_id_category, get_all_brand, get_brand_by_id
+// add brand
+const add_brand = async (name, image, idCategory) => {
+    try {
+        const brand = await brand_service.add_brand(name, image, idCategory);
+        return brand;
+    } catch (error) {
+        console.log('Error add brand: ' + error.message);
+    }
 };
+
+// update brand
+const update_brand = async (id, name, image, idCategory) => {
+    try {
+        const brand = await brand_service.update_brand(id, name, image, idCategory);
+        return brand;
+    } catch (error) {
+        console.log('Error update brand: ' + error.message);
+    }
+};
+// delete brand
+const delete_brand = async (id) => {
+    try {
+        await brand_service.delete_brand(id);
+    } catch (error) {
+        console.log('Error delete brand: ' + error.message);
+    }
+};
+
+
+module.exports = {
+    add_brand, get_brand_by_id_category, get_all_brand, update_brand, delete_brand, get_brand_by_id
+};
+
