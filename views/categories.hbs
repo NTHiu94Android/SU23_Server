@@ -6,9 +6,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="images/apple-icon.png">
   <link rel="icon" type="image/png" href="images/favicon.png">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-  <title>
-    iTechPro - Quản lý sản phẩm
-  </title>
+  <title>iTech</title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <!-- Nucleo Icons -->
@@ -33,7 +31,7 @@
         aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html "
         target="_blank">
-        <img src="images/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
+        <img src="images/logos/logo.png" class="navbar-brand-img h-100" alt="main_logo">
         <span class="ms-1 font-weight-bold">iTech</span>
       </a>
     </div>
@@ -145,8 +143,7 @@
       <div class="row">
         <div class="col-12">
           <div class="card mb-4">
-            <div class="card-header pb-3 p-3 d-flex"  style="display: flex; flex-direction: row; justify-content: flex-end;">
-              
+            <div class="card-header pb-3 p-3 d-flex" style="display: flex; flex-direction: row; justify-content: flex-end;">
               <div class="col-9 text-end">
                 <button class="btn btn-outline-primary btn-sm mb-0">
                   <a href="/categories/insert">Thêm sản loại phẩm</a></button>
@@ -167,11 +164,11 @@
                     {{#each categories}}
                     
                     <tr>
-                      <td style="white-space:pre-line">
+                      <td style="align-middle text-center text-sm">
                         <span class="text-secondary text-xs font-weight-bold"
                           style="margin-top: 8px; margin-bottom: 8px;">ID: {{this._id}}</span>
                       </td>
-                      <td style="column-width: 200px;">
+                      <td style="align-middle text-center text-sm;">
                         <div class="d-flex px-2 py-1">
                           <div>
                             <img src="{{this.image}}" class="avatar avatar-sm me-3" alt="user1">
@@ -180,13 +177,13 @@
                       </td>
                       {{!-- white-space:pre-line --}}
                       {{!-- align-middle text-center text-sm --}}
-                      <td style="white-space:pre-line">
+                      <td style="align-middle text-center text-sm">
                         <span class="text-secondary text-xs font-weight-bold"
                           style="margin-top: 8px; margin-bottom: 8px;">{{this.name}}</span>
                       </td>
                       
 
-                      <td style="">
+                      <td style="align-middle text-center text-sm">
                         <button onclick="editCategory('{{this._id}}')" class="btn btn-xs mb-3 mt-3 btn-outline-secondary">
                           Sửa
                         </button>

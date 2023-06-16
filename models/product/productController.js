@@ -20,6 +20,19 @@ const onAddroduct = async (name, image, idCategory, idBrand) => {
     }
 };
 
+//Xoa product theo id
+const onDeleteProduct = async (_id) => {
+    try {
+        const res = await product_service.delete_product(_id);
+        if (!res) {
+            return false;
+        }
+        return true;
+    } catch (error) {
+        console.log('Error delete product: ' + error.message);
+    }
+}
+
 module.exports = {
-    onAddroduct, onGetProducts,
+    onAddroduct, onGetProducts, onDeleteProduct
 };

@@ -58,8 +58,7 @@ router.post('/', async function (req, res, next) {
         const user = await user_controller.login(username, null, password, '');
 
         if (!user) {
-            res.status(401).render('Error', { message: 'Not authorization' });
-            return;
+            return res.redirect('/');
         }
         if (user.role == 'admin') {
             //Luu accessToken vao session
@@ -68,10 +67,10 @@ router.post('/', async function (req, res, next) {
             console.log('accessToken: ', req.session.accessToken);
             res.redirect('home');
         } else {
-            res.status(401).render('/', { message: 'Not authorization' });
+            return res.redirect('/');
         }
     } catch (error) {
-        res.status(500).send(error.message);
+        return res.redirect('/');
     }
 });
 
@@ -83,8 +82,8 @@ router.get('/home', checkAccessTokenMiddleware, async function (req, res, next) 
         res.status(500).send(error.message);
     }
 });
-//---------------------------------CATEGORIES---------------------------------
 
+//---------------------------------CATEGORIES---------------------------------
 //Danh sach categories
 router.get('/categories', checkAccessTokenMiddleware, async function (req, res) {
     try {
@@ -99,15 +98,23 @@ router.get('/categories', checkAccessTokenMiddleware, async function (req, res) 
     }
 });
 
-//Deleete Category
-router.get('/categories/:_id/delete', checkAccessTokenMiddleware, async function (req, res) {
+//Xoa category theo id
+router.get('/categories/:_id/delete', checkAccessTokenMiddleware, async function (req, res, next) {
     try {
-        const { _id } = req.param;
+        const { _id } = req.params;
         if (!_id) {
-            res.status(401).render('Error', { message: 'Not authorization' });
-            return;
+            res.json({ status: false });
         } else {
             await category_controller.delete_category(_id);
+            const brands = await brand_controller.get_brand_by_id_category(_id);
+            for (let i = 0; i < brands.length; i++) {
+                const products = await product_controller.onGetProductByIdBrand(brands[i]._id);
+                for (let j = 0; j < products.length; j++) {
+                    await product_controller.onDeleteProduct(products[j]._id);
+                }
+                await brand_controller.delete_brand(brands[i]._id);
+            }
+
             res.json({ status: true });
         }
     } catch (error) {
@@ -123,23 +130,24 @@ router.get('/categories/insert', checkAccessTokenMiddleware, async function (req
         res.status(500).send(error.message);
     }
 });
+
 router.post('/categories/insert', checkAccessTokenMiddleware, multer.single('picture'), async function (res, req) {
     try {
         const {name} = req.body;
         const result = await cloudinary.uploader.upload(req.file.path);
         const image = result.secure_url;
         if (!name || !image) {
-            res.status(401).render('Error', { message: 'Not authorization' });
+            res.status(401).render('error', { message: 'Not authorization' });
             return;
         }
         const category = await category_controller.add_category(name, image);
         if(!category){
-            res.status(401).render('Error', {message:'Not authorization'});
+            res.status(401).render('error', {message:'Not authorization'});
             return;
         }
         res.redirect('/categories')
     } catch (error) {
-        res.status(500).send(error.message);
+        console.log('error insert category: ', error);
 
     }
 });
@@ -163,8 +171,11 @@ router.post('/categories/:_id/update', checkAccessTokenMiddleware, multer.single
     try {
         const { _id } = req.params;
         const { name } = req.body;
-        const result = await cloudinary.uploader.upload(req.file.path);
-        const image = result.secure_url;
+        let image = req.body.image;
+        if(req.file){
+            const result = await cloudinary.uploader.upload(req.file.path);
+            image = result.secure_url;
+        }
         //console.log('Info: ', name, image, idCategory, idBrand);
         if (!name || !image || !_id) {
             res.status(401).render('Error', { message: 'Not authorization' });

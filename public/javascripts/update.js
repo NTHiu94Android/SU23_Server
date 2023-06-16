@@ -1,5 +1,5 @@
-
-
+const domain = 'https://itech-server-datn.onrender.com'
+//const domain = 'http://localhost:3000';//
 
 
 const fetchApi = async (url, option) => {
@@ -8,11 +8,11 @@ const fetchApi = async (url, option) => {
 }
 
 const edit = (_id) => {
-    window.location.href = `http://localhost:3000/products/${_id}/product-update`
+    window.location.href = `${domain}/products/${_id}/product-update`
 }
 
 const editCategory = (id) => {
-    window.location.href = `http://localhost:3000/categories/${id}/update`;
+    window.location.href = `/categories/${id}/update`;
 }
 
 const deleteCategory = (id) => {
@@ -49,7 +49,7 @@ const deleteCategory = (id) => {
 }
 
 const editBrand = (id) => {
-    window.location.href = `http://localhost:3000/brands/${id}/update`;
+    window.location.href = `${domain}/brands/${id}/update`;
 }
 
 const deleteBrand = (id) => {
@@ -86,11 +86,11 @@ const deleteBrand = (id) => {
 }
 
 const editSubProduct = (_id) => {
-    window.location.href = `http://localhost:3000/sub-products/${_id}/sub-product-update`
+    window.location.href = `${domain}/sub-products/${_id}/sub-product-update`
 }
 
 const addPicture = (_id) => {
-    window.location.href = `http://localhost:3000/sub-products/${_id}/add-picture`
+    window.location.href = `${domain}/sub-products/${_id}/add-picture`
 }
 
 const onChangeFile = () => {
