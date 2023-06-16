@@ -130,7 +130,7 @@ router.get('/categories/insert', checkAccessTokenMiddleware, async function (req
     }
 });
 
-router.post('/categories/insert', checkAccessTokenMiddleware, multer.single('picture'), async function (res, req) {
+router.post('/categories/insert', checkAccessTokenMiddleware, multer.single('picture'), async function (req, res, next) {
     try {
         const { name } = req.body;
         if (!req.file) {
@@ -139,19 +139,20 @@ router.post('/categories/insert', checkAccessTokenMiddleware, multer.single('pic
         }
         const result = await cloudinary.uploader.upload(req.file.path);
         const image = result.secure_url;
+        //console.log('Info: ', name, image, idCategory, idBrand);
         if (!name || !image) {
-            res.status(401).redirect('/categories/insert');
+            res.status(401).render('Error', { message: 'Not authorization' });
             return;
         }
-        const category = await category_controller.add_category(name, image);
+        const category = await category_controller.create_category(name, image);
         if (!category) {
-            res.status(401).redirect('/categories/insert');
+            res.status(401).render('Error', { message: 'Not authorization' });
             return;
         }
-        res.redirect('/categories')
+        res.redirect('/categories');
+
     } catch (error) {
-        console.log('error insert category: ', error);
-        return;
+        res.status(500).send(error.message);
     }
 });
 

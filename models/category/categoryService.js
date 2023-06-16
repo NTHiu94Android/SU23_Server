@@ -12,6 +12,16 @@ const get_category_by_id = async (_id) => {
     return category ;
 };
 
+//create category
+const create_category = async (name , image)=>{
+    const category = new category_model({
+        name: name,
+        image: image
+    });
+    await category.save();
+    return category;
+}
+
 //update category by id
 const update_category = async (_id , name , image)=>{
     const category = await category_model.findByIdAndUpdate({_id:_id}, {name:name, image:image});
@@ -23,4 +33,4 @@ const delete_category = async (_id)=>{
     await category_model.findByIdAndDelete({_id:_id});
 }
 
-module.exports = { get_all_category, get_category_by_id, update_category, delete_category };
+module.exports = { get_all_category, get_category_by_id, update_category, delete_category, create_category };

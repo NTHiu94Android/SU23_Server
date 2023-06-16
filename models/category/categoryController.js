@@ -21,6 +21,16 @@ const get_category_by_id = async (_id) =>{
     }
 };
 
+//create category
+const create_category = async (name , image)=>{
+    try {
+        const category = await category_service.create_category(name , image);
+        return category;
+    } catch (error) {
+        console.log('Error create category: ' + error.message);
+    }
+}
+
 //update category by id
 const update_category = async (_id , name , image)=>{
     try {
@@ -40,4 +50,4 @@ const delete_category = async (_id)=>{
     }
 }
 
-module.exports = { get_all_category, get_category_by_id, update_category, delete_category };
+module.exports = { get_all_category, get_category_by_id, update_category, delete_category, create_category };
