@@ -1,6 +1,5 @@
-const domain = 'https://itech-server-datn.onrender.com'
-//const domain = 'http://localhost:3000';//
-
+//const domain = 'https://itech-server-datn.onrender.com'
+const domain = 'http://localhost:3000';
 
 const fetchApi = async (url, option) => {
     const res = await fetch(url, option);
@@ -12,7 +11,7 @@ const edit = (_id) => {
 }
 
 const editCategory = (id) => {
-    window.location.href = `/categories/${id}/update`;
+    window.location.href = `${domain}/categories/${id}/update`;
 }
 
 const deleteCategory = (id) => {

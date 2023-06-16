@@ -10,6 +10,17 @@ const onGetProducts = async () => {
     }
 };
 
+//Lay product theo idbrand
+const onGetProductsByIdBrand = async (idBrand) => {
+    try {
+        const products = await onGetProducts();
+        const productsByIdBrand = products.filter(product => product.idBrand == idBrand);
+        return productsByIdBrand;
+    } catch (error) {
+        console.log('Error get products: ' + error.message);
+    }
+}
+
 //Add product
 const onAddroduct = async (name, image, idCategory, idBrand) => {
     try {
@@ -34,5 +45,5 @@ const onDeleteProduct = async (_id) => {
 }
 
 module.exports = {
-    onAddroduct, onGetProducts, onDeleteProduct
+    onAddroduct, onGetProducts, onDeleteProduct, onGetProductsByIdBrand
 };

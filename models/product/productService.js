@@ -19,7 +19,10 @@ const delete_product = async (_id) => {
     const product = await product_model.findById(_id);
     await product.remove();
     //Xoa tat ca sub product cua san pham
-    await sub_product_model.deleteMany({ idProduct: _id });
+    const sub_products = await sub_product_model.find({ idProduct: _id });
+    if(sub_products.length > 0) {
+        await sub_product_model.deleteMany({ idProduct: _id });
+    }
     return product;
 };
 

@@ -18,4 +18,9 @@ const update_category = async (_id , name , image)=>{
     return category;
 };
 
-module.exports = { get_all_category, get_category_by_id };
+//delete category by id
+const delete_category = async (_id)=>{
+    await category_model.findByIdAndDelete({_id:_id});
+}
+
+module.exports = { get_all_category, get_category_by_id, update_category, delete_category };

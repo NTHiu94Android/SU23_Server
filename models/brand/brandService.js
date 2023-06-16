@@ -25,8 +25,8 @@ const update_brand = async (id, name, image, idCategory) => {
     return brand;
 };
 // delete brand
-const delete_brand = async (id) => {
-    await brand_model.findByIdAndDelete(id);
+const delete_brand = async (_id) => {
+    await brand_model.findByIdAndDelete(_id);
 };
 // add brand
 const add_brand = async (name, image, idCategory) => {

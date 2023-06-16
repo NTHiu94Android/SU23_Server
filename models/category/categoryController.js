@@ -21,4 +21,23 @@ const get_category_by_id = async (_id) =>{
     }
 };
 
-module.exports = { get_all_category, get_category_by_id };
+//update category by id
+const update_category = async (_id , name , image)=>{
+    try {
+        const category = await category_service.update_category(_id , name , image);
+        return category;
+    } catch (error) {
+        console.log('Error update category: ' + error.message);
+    }
+}
+
+//delete category by id
+const delete_category = async (_id)=>{
+    try {
+        await category_service.delete_category(_id);
+    } catch (error) {
+        console.log('Error delete category: ' + error.message);
+    }
+}
+
+module.exports = { get_all_category, get_category_by_id, update_category, delete_category };

@@ -105,16 +105,15 @@ router.get('/categories/:_id/delete', checkAccessTokenMiddleware, async function
         if (!_id) {
             res.json({ status: false });
         } else {
-            await category_controller.delete_category(_id);
             const brands = await brand_controller.get_brand_by_id_category(_id);
             for (let i = 0; i < brands.length; i++) {
-                const products = await product_controller.onGetProductByIdBrand(brands[i]._id);
+                const products = await product_controller.onGetProductsByIdBrand(brands[i]._id);
                 for (let j = 0; j < products.length; j++) {
                     await product_controller.onDeleteProduct(products[j]._id);
                 }
                 await brand_controller.delete_brand(brands[i]._id);
             }
-
+            await category_controller.delete_category(_id);
             res.json({ status: true });
         }
     } catch (error) {
@@ -133,32 +132,36 @@ router.get('/categories/insert', checkAccessTokenMiddleware, async function (req
 
 router.post('/categories/insert', checkAccessTokenMiddleware, multer.single('picture'), async function (res, req) {
     try {
-        const {name} = req.body;
+        const { name } = req.body;
+        if (!req.file) {
+            res.status(401).redirect('/categories/insert');
+            return;
+        }
         const result = await cloudinary.uploader.upload(req.file.path);
         const image = result.secure_url;
         if (!name || !image) {
-            res.status(401).render('error', { message: 'Not authorization' });
+            res.status(401).redirect('/categories/insert');
             return;
         }
         const category = await category_controller.add_category(name, image);
-        if(!category){
-            res.status(401).render('error', {message:'Not authorization'});
+        if (!category) {
+            res.status(401).redirect('/categories/insert');
             return;
         }
         res.redirect('/categories')
     } catch (error) {
         console.log('error insert category: ', error);
-
+        return;
     }
 });
 
 // update category
-router.get('/categories/:_id/update', checkAccessTokenMiddleware, async function (req, res){
+router.get('/categories/:_id/update', checkAccessTokenMiddleware, async function (req, res) {
     try {
         const categories = await category_controller.get_all_category();
-        for(let i = 0 ; i< categories.length; i++){
+        for (let i = 0; i < categories.length; i++) {
             if (categories[i]._id == req.params._id) {
-                res.render('category-update', {title: 'iTech - Category', category : categories[i]});
+                res.render('category-update', { title: 'iTech - Category', category: categories[i] });
                 return;
             }
         }
@@ -172,7 +175,7 @@ router.post('/categories/:_id/update', checkAccessTokenMiddleware, multer.single
         const { _id } = req.params;
         const { name } = req.body;
         let image = req.body.image;
-        if(req.file){
+        if (req.file) {
             const result = await cloudinary.uploader.upload(req.file.path);
             image = result.secure_url;
         }
@@ -265,18 +268,16 @@ router.post('/brands/:_id/update', checkAccessTokenMiddleware, multer.single('pi
 router.get('/brands/:_id/delete', checkAccessTokenMiddleware, async function (req, res, next) {
     try {
         const { _id } = req.params;
-        if (!_id) {
-            res.json({ status: false });
-        } else {
-            const products = await product_controller.onGetProductByIdBrand(_id);
+        const products = await product_controller.onGetProductsByIdBrand(_id);
+        if(products){
             for (let j = 0; j < products.length; j++) {
                 await product_controller.onDeleteProduct(products[j]._id);
             }
-            await brand_controller.delete_brand(_id);
-            res.json({ status: true });
         }
+        await brand_controller.delete_brand(_id);
+        res.json({ status: true });
     } catch (error) {
-        res.status(500).send(error.message);
+        console.log('error delete brand: ', error);
     }
 });
 
