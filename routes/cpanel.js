@@ -214,5 +214,106 @@ router.get('/brands', checkAccessTokenMiddleware, async function (req, res, next
     }
 });
 
+//Cap nhat brand theo id
+router.get('/brands/:_id/update', checkAccessTokenMiddleware, async function (req, res, next) {
+    try {
+        const brand = await brand_controller.get_brand_by_id(req.params._id);
+        const categories = await category_controller.get_all_category();
+        if (!brand || !categories) {
+            return;
+        }
+        if (categories) {
+            for (let i = 0; i < categories.length; i++) {
+                if (categories[i]._id == brand.idCategory) {
+                    categories[i].isSelected = true;
+                } else {
+                    categories[i].isSelected = false;
+                }
+            }
+        }
+        res.render('brand-update', { title: 'iTech - Brand', brand: brand, categories: categories });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+router.post('/brands/:_id/update', checkAccessTokenMiddleware, multer.single('picture'), async function (req, res, next) {
+    try {
+        const { _id } = req.params;
+        const { name, idCategory } = req.body;
+        let image = req.body.image;
+        if (req.file) {
+            const result = await cloudinary.uploader.upload(req.file.path);
+            image = result.secure_url;
+        }
+        //console.log('Info: ', name, image, idCategory, idBrand);
+        if (!name || !image || !_id || !idCategory) {
+            return;
+        }
+        const brand = await brand_controller.update_brand(_id, name, image, idCategory);
+        if (!brand) {
+            return;
+        }
+        res.redirect('/brands');
+
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+//Xoa brand theo id
+router.get('/brands/:_id/delete', checkAccessTokenMiddleware, async function (req, res, next) {
+    try {
+        const { _id } = req.params;
+        if (!_id) {
+            res.json({ status: false });
+        } else {
+            const products = await product_controller.onGetProductByIdBrand(_id);
+            for (let j = 0; j < products.length; j++) {
+                await product_controller.onDeleteProduct(products[j]._id);
+            }
+            await brand_controller.delete_brand(_id);
+            res.json({ status: true });
+        }
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+//Them brands
+router.get('/brands/insert', checkAccessTokenMiddleware, async function (req, res, next) {
+    try {
+        const categories = await category_controller.get_all_category();
+        res.render('brand-insert', { title: 'iTech - Brand insert', categories: categories });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+router.post('/brands/insert', checkAccessTokenMiddleware, multer.single('picture'), async function (req, res, next) {
+    try {
+        const { name, idCategory } = req.body;
+        if (!req.file) {
+            res.status(401).redirect('/brands/insert');
+            return;
+        }
+        const result = await cloudinary.uploader.upload(req.file.path);
+        const image = result.secure_url;
+        //console.log('Info: ', name, image, idCategory, idBrand);
+        if (!name || !image || !idCategory) {
+            res.status(401).redirect('/brands/insert')
+            return;
+        }
+        const brand = await brand_controller.add_brand(name, image, idCategory);
+        if (!brand) {
+            res.status(401).redirect('/brands/insert')
+            return;
+        }
+        res.redirect('/brands');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 
 module.exports = router;
