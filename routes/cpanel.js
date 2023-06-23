@@ -299,5 +299,276 @@ router.post('/brands/insert', checkAccessTokenMiddleware, multer.single('picture
     }
 });
 
+//----------------------------------San pham----------------------------------
+//-Danh sach san pham
+router.get('/products', checkAccessTokenMiddleware, async function (req, res, next) {
+    try {
+        const products = await product_controller.onGetProducts();
+        if (!products) {
+            res.status(401).render('Error', { message: 'Not authorization' });
+            return;
+        }
+        for (let i = 0; i < products.length; i++) {
+            const subProducts = await sub_product_controller.onGetSubProductsByIdProduct(products[i]._id);
+            products[i].subProducts = subProducts;
+            products[i].price = subProducts[0].price;
+            products[i].sale = subProducts[0].sale;
+        }
+
+        res.render('products', { title: 'iTechPro - Product', products: products });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+//Cap nhat san pham theo id
+router.get('/products/:_id/product-update', checkAccessTokenMiddleware, async function (req, res, next) {
+    try {
+        const products = await product_controller.onGetProducts();
+        let product = null;
+        if (!products) {
+            res.status(401).render('Error', { message: 'Not authorization' });
+            return;
+        } else {
+            for (let i = 0; i < products.length; i++) {
+                if (products[i]._id == req.params._id) {
+                    product = products[i];
+                    break;
+                }
+            }
+        }
+        if (!product) {
+            res.status(401).render('Error', { message: 'Not authorization' });
+            return;
+        }
+        const subProducts = await sub_product_controller.onGetSubProductsByIdProduct(req.params.id);
+        product.subProducts = subProducts;
+
+        //Lay danh sach danh muc
+        const categories = await category_controller.get_all_category();
+        if (categories) {
+            for (let i = 0; i < categories.length; i++) {
+                if (categories[i]._id == product.idCategory) {
+                    categories[i].isSelected = true;
+                } else {
+                    categories[i].isSelected = false;
+                }
+            }
+        }
+
+        //Lay danh sach thuong hieu
+        const brands = await brand_controller.get_brand_by_id_category(product.idCategory);
+        if (brands) {
+            for (let i = 0; i < brands.length; i++) {
+                if (brands[i]._id == product.idBrand) {
+                    brands[i].isSelected = true;
+                } else {
+                    brands[i].isSelected = false;
+                }
+            }
+        }
+        const title = 'iTechPro - Product Update';
+        res.render('product-update', { title, product, brands, categories });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+router.post('/products/:_id/product-update', checkAccessTokenMiddleware, multer.single('image'), async function (req, res, next) {
+    try {
+        const { _id } = req.params;
+        const { name, idCategory, idBrand } = req.body;
+        const result = await cloudinary.uploader.upload(req.file.path);
+        const image = result.secure_url;
+        //console.log('Info: ', name, image, idCategory, idBrand);
+        if (!name || !image || !idCategory || !idBrand) {
+            res.status(401).render('Error', { message: 'Not authorization' });
+            return;
+        }
+        const product = await product_controller.onUpdateProduct(_id, name, image, idCategory, idBrand);
+        if (!product) {
+            res.status(401).render('Error', { message: 'Not authorization' });
+            return;
+        }
+        res.redirect('/products');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+//Them san pham
+router.get('/products/product-insert', checkAccessTokenMiddleware, async function (req, res, next) {
+    try {
+        //Lay danh sach danh muc
+        const categories = await category_controller.get_all_category();
+        //console.log('categories: ', categories);
+        //Lay danh sach thuong hieu
+        let listBrands = [];
+        if (categories) {
+            for (let i = 0; i < categories.length; i++) {
+                const brands = await brand_controller.get_brand_by_id_category(categories[i]._id);
+                if (brands) {
+                    for (let j = 0; j < brands.length; j++) {
+                        listBrands.push(brands[j]);
+                    }
+                }
+            }
+        }
+        const title = 'iTechPro - Product Add';
+        res.render('product-insert', { title, categories, brands: listBrands });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+router.post('/products/product-insert', checkAccessTokenMiddleware, multer.single('picture'), async function (req, res, next) {
+    try {
+        const {
+            name, idCategory, idBrand, price, description, quantity, color, sale, ram, rom, cpu, screen
+        } = req.body
+        const result = await cloudinary.uploader.upload(req.file.path);
+        const image = result.secure_url;
+        if (!image) {
+            res.status(401).render('Error', { message: 'Upload image fail' });
+            return;
+        }
+        const product = await product_controller.onAddroduct(name, image, idCategory, idBrand);
+        const subProduct = await sub_product_controller
+            .onAddSubProduct(price, description, quantity, color, sale, ram, rom, screen, cpu, "", "", "", product._id);
+        await picture_controller.add_picture(image, subProduct._id, "", "");
+        res.redirect('/products');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+//-------------------------------------------San pham chi tiet-----------------------------------
+//Lay danh sach san pham chi tiet
+router.get('/sub-product', checkAccessTokenMiddleware, async function (req, res, next) {
+    try {
+        const subProducts = await sub_product_controller.onGetSubProducts();
+        if (subProducts) {
+            for (let i = 0; i < subProducts.length; i++) {
+                const product = await product_controller.onGetProductById(subProducts[i].idProduct);
+                if (product) {
+                    subProducts[i].nameProduct = product.name;
+                    subProducts[i].image = product.image;
+                }
+            }
+
+            res.render('sub-product', { title: 'iTechPro - Sub Product', subProducts });
+
+        } else {
+            res.status(401).render('Error', { message: 'Not authorization' });
+            return;
+        }
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+//Them san pham chi tiet
+router.get('/sub-products/sub-product-insert', checkAccessTokenMiddleware, async function (req, res, next) {
+    try {
+        const products = await product_controller.onGetProducts();
+        if (products) {
+            res.render('sub-product-insert', { title: 'iTech - Thêm sản phẩm chi tiết', products });
+        } else {
+            res.status(401).render('Error', { message: 'Not authorization' });
+            return;
+        }
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+router.post('/sub-products/sub-product-insert', checkAccessTokenMiddleware, multer.array('pictures', 10), async function (req, res, next) {
+    try {
+        const { idProduct, price, description, quantity, color, sale, ram, rom, screen, cpu } = req.body;
+        const subProduct = await sub_product_controller
+            .onAddSubProduct(price, description, quantity, color, sale, ram, rom, screen, cpu, "", "", "", idProduct);
+        if (!subProduct) {
+            res.status(401).render('Error', { message: 'Not authorization' });
+            return;
+        }
+        const files = req.files;
+        if (!files) {
+            res.status(401).render('Error', { message: 'Not authorization' });
+            return;
+        }
+        for (let i = 0; i < files.length; i++) {
+            const result = await cloudinary.uploader.upload(files[i].path);
+            const image = result.secure_url;
+            await picture_controller.add_picture(image, subProduct._id, "", "");
+        }
+        res.redirect('/sub-products');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+//Cap nhat san pham chi tiet
+router.get('/sub-products/:_id/sub-product-update', checkAccessTokenMiddleware, async function (req, res, next) {
+    try {
+        const { _id } = req.params;
+        const subProducts = await sub_product_controller.onGetSubProducts();
+        if (!subProducts) {
+            return;
+        }
+        let subProduct = null;
+        for (let i = 0; i < subProducts.length; i++) {
+            if (subProducts[i]._id == _id) {
+                subProduct = subProducts[i];
+            }
+        }
+
+        const product = await product_controller.onGetProductById(subProduct.idProduct);
+        //console.log('Product update subProduct', product);
+
+        if (product) {
+            res.render('sub-product-update', { title: 'iTechPro - Product', product, subProduct });
+        } else {
+            res.status(401).render('Error', { message: 'Not authorization' });
+            return;
+        }
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+router.post('/sub-products/:_id/sub-product-update', checkAccessTokenMiddleware, multer.array('pictures', 10), async function (req, res, next) {
+    try {
+        const { price, ram, rom, quantity, sale, cpu, screen, subProduct } = req.body;
+        const { _id } = req.params;
+        const files = req.files; // Danh sách các tệp đã được tải lên
+        const result = await Promise.all(
+            files.map(async (file) => {
+                const uploadResult = await cloudinary.uploader.upload(file.path);
+                return uploadResult.secure_url;
+            })
+        );
+        console.log('Result', result);
+        //Them hinh anh
+        for (let i = 0; i < result.length; i++) {
+            const picture = await picture_controller.add_picture(result[i], _id, "", "");
+            console.log('Picture', picture);
+        }
+        //cap nhat subProduct
+        const subProductUpdate = await sub_product_controller
+            .onUpdateSubProduct(_id, price, subProduct.description, quantity, subProduct.color,
+                sale, ram, rom, screen, cpu, subProduct.pin, "", "", subProduct.idProduct);
+
+        if (!subProductUpdate) {
+            res.status(401).render('Error', { message: 'Not authorization' });
+            return;
+        } else {
+            res.redirect('/products');
+        }
+
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 
 module.exports = router;
