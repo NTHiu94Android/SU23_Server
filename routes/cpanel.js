@@ -270,7 +270,7 @@ router.get('/brands/:_id/delete', checkAccessTokenMiddleware, async function (re
     try {
         const { _id } = req.params;
         const products = await product_controller.onGetProductsByIdBrand(_id);
-        if(products){
+        if (products) {
             for (let j = 0; j < products.length; j++) {
                 await product_controller.onDeleteProduct(products[j]._id);
             }

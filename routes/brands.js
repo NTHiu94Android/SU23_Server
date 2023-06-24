@@ -26,4 +26,14 @@ router.post('/cpanel/add-brand', [authen], async (req, res) => {
     }
 });
 
+//Lay brand theo idCategory
+router.get('/cpanel/get-brand-by-id-category/:idCategory', async (req, res) => {
+    try {
+        const brands = await brand_controller.get_brand_by_id_category(req.params.idCategory);
+        res.json({ error: false, responeTime: new Date(), statusCode: 200, data: brands });
+    } catch (error) {
+        res.json({ error: true, responeTime: new Date(), statusCode: 400, data: error.message });
+    }
+});
+
 module.exports = router;
