@@ -510,6 +510,7 @@ router.post('/sub-products/sub-product-insert', checkAccessTokenMiddleware, mult
             return;
         }
         const files = req.files;
+        console.log('files: ', files);
         if (!files) {
             res.status(401).render('Error', { message: 'Not authorization' });
             return;
@@ -517,9 +518,10 @@ router.post('/sub-products/sub-product-insert', checkAccessTokenMiddleware, mult
         for (let i = 0; i < files.length; i++) {
             const result = await cloudinary.uploader.upload(files[i].path);
             const image = result.secure_url;
-            await picture_controller.add_picture(image, subProduct._id, "", "");
+            const img = await picture_controller.add_picture(image, subProduct._id, "", "");
+            console.log();(`img ${i}: `, img);
         }
-        res.redirect('/sub-products');
+        res.redirect('/sub-product');
     } catch (error) {
         res.status(500).send(error.message);
     }
