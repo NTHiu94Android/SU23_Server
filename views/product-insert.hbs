@@ -309,7 +309,7 @@
     }
     //Lay brand theo idCategory
     const getBrands = async (idCategory) => {
-      const response = await fetchApi(`https://itech-server-datn.onrender.com/brands/cpanel/get-brand-by-id-category/${idCategory}`, {
+      const response = await fetchApi(`http://localhost:3000/brands/cpanel/get-brand-by-id-category/${idCategory}`, {
         method: 'GET'
       });
       console.log(response.data);
