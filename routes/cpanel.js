@@ -807,7 +807,7 @@ router.get('/products/:_id/delete', checkAccessTokenMiddleware, async function (
         const { _id } = req.params;
         const result = await product_controller.onDeleteProduct(_id);
         console.log('Result delete product: ', result);
-        res.json({status: true})
+        res.json({status: result})
     } catch (error) {
         console.log('Error delete product', error.message);
         res.redirect('/products');
@@ -952,12 +952,12 @@ router.post('/sub-products/:_id/sub-product-update', checkAccessTokenMiddleware,
 });
 
 //Xoa san pham chi tiet
-router.get('/sub-products/:_id/sub-product-delete', checkAccessTokenMiddleware, async function (req, res, next) {
+router.get('/sub-products/:_id/delete', checkAccessTokenMiddleware, async function (req, res, next) {
     try {
         const { _id } = req.params;
         const result = await sub_product_controller.onDeleteSubProduct(_id);
         console.log('Result delete sub product', result);
-        res.json({ status: true });
+        res.json({ status: result });
     } catch (error) {
         console.log('Error delete sub product', error.message);
         res.redirect('/sub-product');
