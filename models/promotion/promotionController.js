@@ -11,9 +11,9 @@ const getAllPromotionByIdUser = async (idUser) => {
 };
 
 //Them moi promotion
-const addPromotion = async (content, sale, code,  dayStart, dayEnd, condition, idUser) => {
+const addPromotion = async (content, sale, maxSale, code,  dayStart, dayEnd, condition, idUser) => {
     try {
-        const promotion = await promotion_service.addPromotion(content, sale, code, dayStart, dayEnd, condition, idUser);
+        const promotion = await promotion_service.addPromotion(content, sale, maxSale, code, dayStart, dayEnd, condition, idUser);
         return promotion;
     } catch (error) {
         console.log('Add promotion error: ', error);

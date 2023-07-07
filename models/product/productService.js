@@ -14,18 +14,34 @@ const add_product = async (name, image, idCategory, idBrand) => {
     return product;
 };
 
+//Cap nhat san pham
+const update_product = async (_id, name, image, idCategory, idBrand) => {
+    const product = await product_model.findById(_id);
+    product.name = name;
+    product.image = image;
+    product.idCategory = idCategory;
+    product.idBrand = idBrand;
+    await product.save();
+    return product;
+};
+
+//Cap nhat ngay cua san pham
+const update_date_product = async (_id) => {
+    const product = await product_model.findById(_id);
+    product.dateInput = Date.now();
+    await product.save();
+    return product;
+};
+
 //Xoa san pham
 const delete_product = async (_id) => {
     const product = await product_model.findById(_id);
     await product.remove();
     //Xoa tat ca sub product cua san pham
-    const sub_products = await sub_product_model.find({ idProduct: _id });
-    if(sub_products.length > 0) {
-        await sub_product_model.deleteMany({ idProduct: _id });
-    }
+    await sub_product_model.deleteMany({ idProduct: _id });
     return product;
 };
 
 module.exports = { 
-    add_product, getProducts, delete_product
+    add_product, getProducts, update_product, delete_product, update_date_product
 };

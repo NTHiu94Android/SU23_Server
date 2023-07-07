@@ -50,6 +50,15 @@ const add_picture = async (url, idSubProduct, idReview, idMessage) => {
     }
 };
 
+const deletePictures = async() => {
+    try {
+        await picture_service.deletePictures();
+        return true;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
-    add_picture, get_picture, get_pictures_by_idProduct, get_pictures_by_idReview, get_all_picture
+    add_picture, get_picture, get_pictures_by_idProduct, get_pictures_by_idReview, get_all_picture, deletePictures
 }

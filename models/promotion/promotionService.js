@@ -7,9 +7,9 @@ const getAllPromotionByIdUser = async (idUser) => {
 };
 
 //Them moi promotion
-const addPromotion = async (content, sale, code, dayStart, dayEnd, condition, idUser) => {
+const addPromotion = async (content, sale, maxSale, code, dayStart, dayEnd, condition, idUser) => {
     const promotion = new promotion_model({
-        content, sale, code, dayStart, dayEnd, condition, idUser
+        content, sale, maxSale, code, dayStart, dayEnd, condition, idUser
     });
     await promotion.save();
     return promotion;

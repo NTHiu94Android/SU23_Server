@@ -7,10 +7,11 @@ const get_address_by_idUser = async (idUser) => {
 };
 
 //Them address
-const add_address = async (body, status, idUser) => {
+const add_address = async (body, status, numberPhone, idUser) => {
     const address = new addressModel({
         body: body,
         status: status,
+        numberPhone: numberPhone,
         idUser: idUser
     });
     const result = await address.save();
@@ -18,10 +19,11 @@ const add_address = async (body, status, idUser) => {
 };
 
 //Cap nhat address
-const update_address = async (_id, body, status, idUser) => {
+const update_address = async (_id, body, status, numberPhone, idUser) => {
     const result = await addressModel.findByIdAndUpdate({ _id: _id }, {
         body: body,
         status: status,
+        numberPhone: numberPhone,
         idUser: idUser
     });
     return result;

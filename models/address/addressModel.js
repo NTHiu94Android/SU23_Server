@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const address_model = new Schema({
   body: { type: String },
   status: { type: Boolean, default: true },
+  numberPhone: { type: String },
   idUser: { type: String },
 });
 

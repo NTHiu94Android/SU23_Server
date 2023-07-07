@@ -26,6 +26,18 @@ const updateSubProduct = async (
     return subProduct;
 };
 
+//Cap nhat ngay cua subProduct
+const updateDateSubProduct = async (_id) => {
+    const subProduct = await sub_product_model.findByIdAndUpdate(_id, { date: Date.now() });
+    return subProduct;
+}
+
+//Cap nhat so luong subProduct
+const updateQuantitySubProduct = async (_id, quantity) => {
+    const subProduct = await sub_product_model.findByIdAndUpdate(_id, { quantity });
+    return subProduct;
+};
+
 //Add subProduct
 const addSubProduct = async (
     price, description, quantity, color, sale,
@@ -39,10 +51,9 @@ const addSubProduct = async (
     return subProduct;
 };
 
-//Xoa subProduct theo id
+//Xoa subProduct
 const deleteSubProduct = async (_id) => {
     const subProduct = await sub_product_model.findByIdAndDelete(_id);
-    //Neu xoa thanh cong thi tra ve true
     if (subProduct) {
         return true;
     }
@@ -50,5 +61,7 @@ const deleteSubProduct = async (_id) => {
 }
 
 module.exports = {
-    getSubProducts, getSubProductsByIdProduct, addSubProduct, updateSubProduct, deleteSubProduct
+    getSubProducts, getSubProductsByIdProduct, addSubProduct, 
+    updateSubProduct, updateQuantitySubProduct, updateDateSubProduct, 
+    deleteSubProduct
 };

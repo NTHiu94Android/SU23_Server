@@ -1,53 +1,54 @@
 const category_service = require('./categoryService');
 
-//Lay tat ca category
-const get_all_category = async () => {
-    try {
-        const categories = await category_service.get_all_category();
-        return categories;
-    } catch (error) {
-        console.log('Error get all category: ' + error.message);
-    }
-};
-
-
-// lay category theo id 
-const get_category_by_id = async (_id) =>{
-    try {
+//Lay category theo id
+const get_category_by_id = async (_id) => {
+    try{
         const category = await category_service.get_category_by_id(_id);
         return category;
-    } catch (error) {
+    }catch(error){
         console.log('Error get category: ' + error.message);
     }
 };
 
-//create category
-const create_category = async (name , image)=>{
-    try {
-        const category = await category_service.create_category(name , image);
-        return category;
-    } catch (error) {
-        console.log('Error create category: ' + error.message);
+//Lay tat ca category
+const get_all_category = async () => {
+    try{
+        const categories = await category_service.get_all_category();
+        return categories;
+    }catch(error){
+        console.log('Error get all category: ' + error.message);
     }
-}
+};
 
-//update category by id
-const update_category = async (_id , name , image)=>{
-    try {
-        const category = await category_service.update_category(_id , name , image);
+//Cap nhat category theo id
+const update_category = async (_id, name, image) => {
+    try{
+        const category = await category_service.update_category(_id, name, image);
         return category;
-    } catch (error) {
+    }catch(error){
         console.log('Error update category: ' + error.message);
     }
-}
+};
 
-//delete category by id
-const delete_category = async (_id)=>{
+//Xoa category theo id
+const delete_category = async (_id) => {
     try {
-        await category_service.delete_category(_id);
+        const res = await category_service.delete_category(_id);
+        //Neu xoa thanh cong thi tra ve true
+        return res;
     } catch (error) {
         console.log('Error delete category: ' + error.message);
     }
-}
+};
 
-module.exports = { get_all_category, get_category_by_id, update_category, delete_category, create_category };
+//Them category
+const add_category = async (name, image) => {
+    try {
+        const category = await category_service.add_category(name, image);
+        return category;
+    } catch (error) {
+        console.log('Error add category: ' + error.message);
+    }
+};
+
+module.exports = { get_all_category, add_category, update_category, delete_category, get_category_by_id };

@@ -131,21 +131,33 @@
             <div class="container-fluid py-1 px-3">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Trang chủ</a></li>
+                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Trang
+                                chủ</a></li>
                         <li class="breadcrumb-item text-sm text-white active" aria-current="page">Chi tiết sản phẩm</li>
                     </ol>
                 </nav>
-                {{!-- <form action="/products">
+                <form action="/search" method="GET">
                     <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                         <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                            <input type="hidden" name="name" value="sub-product">
                             <div class="input-group">
                                 <span class="input-group-text text-body"><i class="fas fa-search"
                                         aria-hidden="true"></i></span>
-                                <input type="text" name="name" class="form-control" placeholder="Tìm kiếm ..">
+                                <input type="text" name="keyword" class="form-control"
+                                    placeholder="Nhập tên sản phẩm.." onkeydown="handleEnter(event)">
                             </div>
                         </div>
                     </div>
-                </form> --}}
+                </form>
+                <script>
+                    function handleEnter(event) {
+                        if (event.keyCode === 13) {
+                            event.preventDefault();
+                            const keyword = event.target.value;
+                            window.location.href = '/search' + '?keyword=' + keyword + '&name=sub-product';
+                        }
+                    }
+                </script>
             </div>
         </nav>
         <!-- End Navbar -->
@@ -153,7 +165,8 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card mb-4">
-                        <div class="card-header pb-3 p-3 d-flex" style="display: flex; flex-direction: row; justify-content: flex-end;">
+                        <div class="card-header pb-3 p-3 d-flex"
+                            style="display: flex; flex-direction: row; justify-content: flex-end;">
                             <div class="col-9 text-end">
                                 <button class="btn btn-outline-primary btn-sm mb-0">
                                     <a href="/sub-products/sub-product-insert">Thêm sản phẩm chi tiết</a></button>

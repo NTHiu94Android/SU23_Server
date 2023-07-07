@@ -21,7 +21,8 @@ router.get('/api/get-address-by-idUser/:idUser', [authen], async function (req, 
 router.post('/api/add-address', [authen], async function (req, res, next) {
     try {
         const { body, status, idUser } = req.body;
-        const address = await address_controller.add_address(body, status, idUser);
+        const numberPhone = '';
+        const address = await address_controller.add_address(body, status, numberPhone, idUser);
         res.json({ error: false, responeTime: new Date(), statusCode: 200, data: address });
     } catch (error) {
         res.json({ error: true, responeTime: new Date(), statusCode: 500, message: error.message });
@@ -33,7 +34,8 @@ router.post('/api/add-address', [authen], async function (req, res, next) {
 router.post('/api/update-address', [authen], async function (req, res, next) {
     try {
         const { _id, body, status, idUser } = req.body;
-        const address = await address_controller.update_address(_id, body, status, idUser);
+        const numberPhone = '';
+        const address = await address_controller.update_address(_id, body, status, numberPhone, idUser);
         res.json({ error: false, responeTime: new Date(), statusCode: 200, data: address });
     } catch (error) {
         res.json({ error: true, responeTime: new Date(), statusCode: 500, message: error.message });

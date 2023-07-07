@@ -25,12 +25,18 @@ const onGetProductById = async (_id) => {
     }
 }
 
-//Lay product theo idbrand
-const onGetProductsByIdBrand = async (idBrand) => {
+//Lay san pham theo idbrand
+const onGetProductByIdBrand = async (_idBrand) => {
     try {
         const products = await onGetProducts();
-        const productsByIdBrand = products.filter(product => product.idBrand == idBrand);
-        return productsByIdBrand;
+        if(!products) return null;
+        let result = [];
+        for (let i = 0; i < products.length; i++) {
+            if(products[i].idBrand == _idBrand){
+                result.push(products[i]);
+            }
+        }
+        return result;
     } catch (error) {
         console.log('Error get products: ' + error.message);
     }
@@ -46,19 +52,36 @@ const onAddroduct = async (name, image, idCategory, idBrand) => {
     }
 };
 
-//Xoa product theo id
+//Cap nhat san pham
+const onUpdateProduct = async (_id, name, image, idCategory, idBrand) => {
+    try {
+        const product = await product_service.update_product(_id, name, image, idCategory, idBrand);
+        return product;
+    } catch (error) {
+        console.log('Error update product: ' + error.message);
+    }
+};
+
+//Cap nhat ngay cua san pham
+const onUpdateDateProduct = async (_id) => {
+    try {
+        const product = await product_service.update_date_product(_id);
+        return product;
+    } catch (error) {
+        console.log('Error update date product: ' + error.message);
+    }
+};
+
+//Xoa san pham
 const onDeleteProduct = async (_id) => {
     try {
-        const res = await product_service.delete_product(_id);
-        if (!res) {
-            return false;
-        }
-        return true;
+        const product = await product_service.delete_product(_id);
+        return product;
     } catch (error) {
         console.log('Error delete product: ' + error.message);
     }
-}
+};
 
 module.exports = {
-    onAddroduct, onGetProducts, onDeleteProduct, onGetProductsByIdBrand, onGetProductById
+    onAddroduct, onGetProducts, onUpdateProduct, onDeleteProduct, onGetProductById, onGetProductByIdBrand, onUpdateDateProduct
 };

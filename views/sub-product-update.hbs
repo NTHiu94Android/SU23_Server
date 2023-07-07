@@ -17,10 +17,9 @@
     <link href="/assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
-    <script language="javascript" src="/javascripts/insert.js"></script>
     <link id="pagestyle" href="/stylesheets/style.css" rel="stylesheet" />
-
-
+    <script language="javascript" src="/javascripts/delete.js"></script>
+    <script language="javascript" src="/javascripts/update.js"></script>
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
@@ -124,8 +123,6 @@
             </ul>
         </div>
     </aside>
-
-
     <main class="main-content position-relative border-radius-lg ">
         <!-- Navbar -->
         <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur"
@@ -136,67 +133,43 @@
                         <li class="breadcrumb-item text-sm">
                             <a class="opacity-5 text-white" href="javascript:;">Trang chủ</a>
                         </li>
-                        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Thêm chi tiết sản phẩm</li>
+                        <li class="breadcrumb-item text-sm text-white active" aria-current="page">Cập nhật chi tiết sản phẩm</li>
                     </ol>
                 </nav>
+
             </div>
         </nav>
-
         <!-- End Navbar -->
-        <div class="container-fluid py-2">
-            <div class="row ">
-                <form role="form" method="post" action="/sub-products/sub-product-insert" enctype="multipart/form-data">
+        <div class="container-fluid py-4">
+            <div class="row col-12 ">
+                <form role="form" method="post" action="/sub-products/{{subProduct._id}}/sub-product-update"
+                    enctype="multipart/form-data">
+                    <input required name="subProduct" value="{{subProduct}}" hidden />
                     <div class="col-md-8">
                         <div class="card">
                             <div class="card-body">
-                                <label for="example-text-input" style="display: flex;"
-                                            class="form-control-label">Tên sản phẩm</label>
-
-                                <select class="optionBrands" name="idProduct"
-                                    style="margin-bottom: 20px; margin-left: 0;">
-                                    {{#each products}}
-                                    <option value="{{this._id}}">{{this.name}}</option>
-                                    {{/each}}
-                                </select>
-
-
                                 <div class="col-md-10">
                                     <div class="form-group">
-                                        <label for="example-text-input" style="display: flex;"
-                                            class="form-control-label">Màu sắc</label>
-                                        <select name="color" class="optionBrands"
-                                            style="display: flex; margin-left: 0px;">
-                                            <option value="black">Đen</option>
-                                            <option value="white">Trắng</option>
-                                            <option value="blue">Xanh</option>
-                                            <option value="red">Đỏ</option>
-                                            <option value="yellow">Vàng</option>
-                                            <option value="pink">Hồng</option>
-                                            <option value="gray">Xám</option>
-                                            <option value="purple">Tím</option>
-                                            <option value="orange">Cam</option>
-                                            <option value="brown">Nâu</option>
-                                            <option value="green">Xanh lá</option>
-                                            <option value="silver">Bạc</option>
-                                        </select>
+                                        <label for="example-text-input" class="form-control-label">Tên sản phẩm</label>
+                                        <p required class="form-control" type="text" id="name" name="name"
+                                            style="font-weight: 800;" minlength="8">{{product.name}}</p>
                                     </div>
                                 </div>
-
 
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Ram</label>
+                                            <label for="example-text-input" class="form-control-label">Ram (Gb)</label>
                                             <input required class="form-control" type="number" id="ram" name="ram"
-                                                minlength="8" value="1" />
+                                                minlength="8" value="{{subProduct.ram}}" />
                                         </div>
                                     </div>
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Rom</label>
+                                            <label for="example-text-input" class="form-control-label">Rom (Gb)</label>
                                             <input required class="form-control" type="number" id="rom" name="rom"
-                                                minlength="8" value="1" />
+                                                minlength="8" value="{{subProduct.rom}}" />
                                         </div>
                                     </div>
 
@@ -204,7 +177,8 @@
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Số lượng</label>
                                             <input class="form-control" type="number" id="quantity" name="quantity"
-                                                min="1" max="1000" value="1" required />
+                                                min="1" max="1000" value="{{subProduct.quantity}}" required />
+
                                         </div>
                                     </div>
                                 </div>
@@ -213,17 +187,18 @@
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Giá tiền</label>
+                                            <label for="example-text-input" class="form-control-label">Giá tiền
+                                                ($)</label>
                                             <input class="form-control" required type="number" id="price" name="price"
-                                                min="1" value="1" max="10000" />
+                                                min="1" value="{{subProduct.price}}" max="10000" />
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Khuyến
-                                                mãi</label>
+                                                mãi (%)</label>
                                             <input class="form-control" required type="number" id="sale" name="sale"
-                                                min="0" value="0" max="100" />
+                                                min="0" value="{{subProduct.sale}}" max="100" />
                                         </div>
                                     </div>
 
@@ -232,52 +207,27 @@
                                 <div class="col-md-10">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Cpu</label>
-                                        <input class="form-control" required type="text" id="sale" name="cpu" />
+                                        <input class="form-control" required type="text" id="sale" name="cpu" value="{{subProduct.cpu}}" />
                                     </div>
                                 </div>
 
                                 <div class="col-md-10">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Screen</label>
-                                        <input class="form-control" required type="text" id="sale" name="screen" />
-                                    </div>
-                                </div>
-
-
-                                <div class="col-md-10">
-                                    <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Mô tả</label>
-                                        <textarea name="description" id="editor"></textarea>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="example-text-input" class="form-control-label">Hình ảnh</label>
-                                        <input type="file" id="image-file" onchange="onChangeFiles()" multiple
-                                            name="pictures" />
-
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group" style="display: flex; flex-direction: column;">
-                                        <label for="example-text-input" class="form-control-label">Xem trước</label>
-                                        <img id="image-view" width="200" height="200" src="" style="display: none;" />
+                                        <input class="form-control" required type="text" id="sale" name="screen" value="{{subProduct.screen}}" />
                                     </div>
                                 </div>
 
                                 <button class="btn btn-primary btn-sm them-sp" type="submit" id="submit">Lưu</button>
 
                             </div>
-
                         </div>
                     </div>
                 </form>
             </div>
-
         </div>
     </main>
+    
     <!--   Core JS Files   -->
     <script src="/assets/js/core/popper.min.js"></script>
     <script src="/assets/js/core/bootstrap.min.js"></script>
@@ -296,43 +246,6 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
-
-    {{!-- Choan thuong hieu theo loai san pham --}}
-    <script>
-        const fetchApi = async (url, option) => {
-            const res = await fetch(url, option);
-            return res.json();
-        }
-        //Lay brand theo idCategory
-        const getBrands = async (idCategory) => {
-            const response = await fetchApi(`https://itech-server-datn.onrender.com/brands/cpanel/get-brand-by-id-category/${idCategory}`, {
-                method: 'GET'
-            });
-            console.log(response.data);
-            const brands = response.data;
-            if (brands.length > 0) {
-                //Hien thi brand theo idCategory len select
-                const brandsSelect = document.getElementById('brandsSelect');
-                brandsSelect.innerHTML = `<option value="">Chọn thương hiệu</option>` + brands.map(brand => `<option value="${brand._id}">${brand.name}</option>`).join('');
-
-            } else {
-                const brandsSelect = document.getElementById('brandsSelect');
-                brandsSelect.innerHTML = `<option value="">Chọn thương hiệu</option>`;
-            }
-
-        }
-        window.addEventListener('load', getBrands(document.getElementById('categoriesSelect').value));
-    </script>
-
-    {{!-- CKEditor --}}
-    <script src="/ckeditor5/ckeditor.js"></script>
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#editor'))
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
 </body>
 
 </html>

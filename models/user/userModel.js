@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const user_model = new Schema({
-  email: { type: String },
+  username: { type: String, },
+  email: { type: String, unique: false },
   password: { type: String, require: true },
   name: { type: String },
   birthday: { type: String, default: '' },
@@ -14,7 +15,7 @@ const user_model = new Schema({
   idFavorite: {type: Object},
 
   loginType: { type: String },
-  username: { type: String, },
+  dateRegister: { type: Date, default: Date.now },
 
   //token
   resetPasswordToken: { type: String, require: false, default: null },

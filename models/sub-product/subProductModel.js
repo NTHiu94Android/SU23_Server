@@ -18,6 +18,8 @@ const sub_product_model = new Schema({
     backCamera: { type: String },
 
     idProduct: { type: String },
+
+    date: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model('SubProduct', sub_product_model);

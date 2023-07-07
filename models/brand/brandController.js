@@ -1,32 +1,30 @@
 const brand_service = require('../brand/brandService');
 
-//Lay brand theo idCategory
-const get_brand_by_id_category = async (_idCategory) => {
-    try {
-        const brands = await brand_service.get_brand_by_id_category(_idCategory);
-        return brands;
-    } catch (error) {
-        console.log('Error get brand: ' + error.message);
-    }
-};
-
-
-// Lay danh sach brand 
+//Lay tat ca brand
 const get_all_brand = async () => {
     try {
-        const brands = brand_service.get_all_brand();
+        const brands = await brand_service.get_all_brand();
         return brands;
     } catch (error) {
         console.log('Error get all brand: ' + error.message);
     }
 };
 
-
-// lay brand theo id 
+//Lay brand theo id
 const get_brand_by_id = async (_id) => {
     try {
         const brand = await brand_service.get_brand_by_id(_id);
         return brand;
+    } catch (error) {
+        console.log('Error get brand: ' + error.message);
+    }
+};
+
+//Lay brand theo idCategory
+const get_brand_by_id_category = async (_idCategory) => {
+    try {
+        const brands = await brand_service.get_brand_by_id_category(_idCategory);
+        return brands;
     } catch (error) {
         console.log('Error get brand: ' + error.message);
     }
@@ -51,6 +49,7 @@ const update_brand = async (id, name, image, idCategory) => {
         console.log('Error update brand: ' + error.message);
     }
 };
+
 // delete brand
 const delete_brand = async (id) => {
     try {
@@ -64,4 +63,3 @@ const delete_brand = async (id) => {
 module.exports = {
     add_brand, get_brand_by_id_category, get_all_brand, update_brand, delete_brand, get_brand_by_id
 };
-

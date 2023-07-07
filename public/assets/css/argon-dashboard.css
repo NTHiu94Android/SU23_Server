@@ -10580,7 +10580,13 @@ fieldset:disabled .btn {
 }
 
 .bg-primary {
-  background-color: #c99789 !important;
+  /* background-color: #c99789 !important; */
+  background-color: var(--bs-gray-400) !important;
+}
+
+.bg-gray-100 {
+  /* background-color: #fce9db !important; */
+  background-color: var(--bs-gray-100) !important;
 }
 
 .bg-secondary {
@@ -10623,9 +10629,7 @@ fieldset:disabled .btn {
   background-color: transparent !important;
 }
 
-.bg-gray-100 {
-  background-color: #fce9db !important;
-}
+
 
 .bg-gray-200 {
   background-color: #e9ecef !important;
@@ -20237,7 +20241,7 @@ fieldset:disabled .btn {
 }
 
 .badge.bg-primary {
-  background: #5e72e4;
+  background: #ff4500;
 }
 
 .badge.bg-secondary {

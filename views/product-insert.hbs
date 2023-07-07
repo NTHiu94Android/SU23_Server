@@ -114,12 +114,12 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link " href="/profile.html">
+          <a class="nav-link" href="/profile">
             <div
               class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Profile</span>
+            <span class="nav-link-text ms-1">Trang cá nhân</span>
           </a>
         </li>
 
@@ -220,7 +220,8 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label for="example-text-input" class="form-control-label">Giá tiền</label>
-                      <input class="form-control" required type="number" id="price" name="price" min="1" value="1" max="10000" />
+                      <input class="form-control" required type="number" id="price" name="price" min="1" value="1"
+                        max="10000" />
                     </div>
                   </div>
                   <div class="col-md-3">
@@ -280,7 +281,7 @@
 
     </div>
   </main>
-  
+
   <!--   Core JS Files   -->
   <script src="/assets/js/core/popper.min.js"></script>
   <script src="/assets/js/core/bootstrap.min.js"></script>
@@ -308,7 +309,7 @@
     }
     //Lay brand theo idCategory
     const getBrands = async (idCategory) => {
-      const response = await fetchApi(`http://localhost:3000/brands/cpanel/get-brand-by-id-category/${idCategory}`, {
+      const response = await fetchApi(`https://itech-server-datn.onrender.com/brands/cpanel/get-brand-by-id-category/${idCategory}`, {
         method: 'GET'
       });
       console.log(response.data);

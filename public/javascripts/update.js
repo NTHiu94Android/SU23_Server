@@ -1,5 +1,7 @@
-//const domain = 'https://itech-server-datn.onrender.com'
-const domain = 'http://localhost:3000';
+
+//const domain = 'http://localhost:3000';
+const domain = 'https://itech-server-datn.onrender.com';
+
 
 const fetchApi = async (url, option) => {
     const res = await fetch(url, option);
@@ -92,6 +94,34 @@ const addPicture = (_id) => {
     window.location.href = `${domain}/sub-products/${_id}/add-picture`
 }
 
+const handleDelivered = async (_idOrder) => {
+    //Them hieu ung loading cho button
+    const button = document.getElementById('btn-delivered');
+    button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`;
+    button.disabled = true;
+    
+    const url = `${domain}/orders/${_idOrder}/update`;
+    await fetch(url);
+    setTimeout(() => {
+        window.location.reload();
+    }, 1000);
+
+}
+
+const handleCancel = async (_idOrder) => {
+    //Them hieu ung loading cho button
+    const button = document.getElementById('btn-cancel');
+    button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`;
+    button.disabled = true;
+    
+    const url = `${domain}/orders/${_idOrder}/cancel`;
+    await fetch(url);
+    setTimeout(() => {
+        window.location.reload();
+    }, 1000);
+
+}
+
 const onChangeFile = () => {
     const file = document.getElementById('image-file').files[0];
     const reader = new FileReader();
@@ -120,7 +150,26 @@ const onChangeFiles = () => {
             image.height = 200;
             image.src = e.target.result;
             imageContainer.appendChild(image);
+            image.style.display = 'block';
         };
         reader.readAsDataURL(file);
     }
 };
+
+// const handleDelivered = (_id) => {
+//     fetch(`${domain}/orders/${_id}/order-detail`, {
+//         method: 'POST',
+//         headers: {
+//         'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({status: 'Delivered'})
+//     })
+//     .then(res => res.json())
+//     .then(res => {
+//         if (res.status === 'success') {
+//         alert('Xác nhận đơn hàng thành công');
+//         window.location.href = 'http://localhost:3000/orders';
+//         }
+//     })
+//     .catch(err => console.log(err));
+// }

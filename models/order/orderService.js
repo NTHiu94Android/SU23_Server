@@ -1,5 +1,11 @@
 const order_model = require('../order/orderModel');
 
+//Lay tat ca don hang
+const get_all_order = async () => {
+    const orders = await order_model.find({});
+    return orders;
+};
+
 //Lay order theo idUser
 const get_order_by_idUser = async (_idUser) => {
     const orders = await order_model.find({ idUser: _idUser });
@@ -22,11 +28,12 @@ const update_order = async (
     _id, datePayment, status
 ) => {
     const order_update = await order_model.findByIdAndUpdate(
-        _id, { datePayment, status }, { new: true }
+        { _id: _id },
+        { datePayment: datePayment, status: status }
     );
     return order_update;
 };
 
 module.exports = {
-    add_order, get_order_by_idUser, update_order
+    add_order, get_order_by_idUser, update_order, get_all_order
 };

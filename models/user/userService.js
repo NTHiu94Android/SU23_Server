@@ -48,6 +48,13 @@ const login = async (username, email, password, fcmtoken) => {
     return null;
 };
 
+const updateDateRegister = async (_idUser) => {
+    const user = await user_model.findByIdAndUpdate(
+        { _id: _idUser }, { dateRegister: Date.now() }
+    );
+    return user;
+};
+
 const updateFcmToken = async (_idUser, tokenFcm) => {
     const user = await user_model.findByIdAndUpdate(
         { _id: _idUser }, { fcmtoken: tokenFcm }
@@ -76,32 +83,38 @@ const register = async (username, email, password, name, birthday, numberPhone, 
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
     let user_server = null;
-    if(email == null) {
+    if (email == null) {
         user_server = await user_model.findOne({ username });
     }
-    if(username == null) {
+    if (username == null) {
         user_server = await user_model.findOne({ email });
     }
 
     console.log('user_server: ', user_server);
-    
+
     if (user_server) {
         return;
-    } else  {
+    } else {
         if (username == null) {
             if (email == "" || password == "") {
                 return;
             } else {
-                const user = new user_model({ username, email, password: hash, name, birthday, numberPhone, avatar, loginType: 'google' });
+                const user = new user_model({
+                    username, email, password: hash, name, birthday,
+                    numberPhone, avatar, loginType: 'google', dateRegister: Date.now()
+                });
                 await user.save();
                 return user;
             }
-        } 
-        if(email == null) {
+        }
+        if (email == null) {
             if (username == "" || password == "") {
                 return;
             } else {
-                const user = new user_model({ username, email: null, password: hash, name, birthday, numberPhone, avatar, loginType: 'username' });
+                const user = new user_model({
+                    username, email: null, password: hash, name, birthday,
+                    numberPhone, avatar, loginType: 'username', dateRegister: Date.now()
+                });
                 await user.save();
                 return user;
             }
@@ -125,10 +138,9 @@ const update_user = async (_idUser, email, name, birthday, numberPhone, avatar) 
         if (users.length > 0) {
             let check = false;
             for (let i = 0; i < users.length; i++) {
-                if(users[i].email == null){
+                if (users[i].email == null) {
                     continue;
-                }
-                if (users[i].email.toLowerCase() == email.toLowerCase() && users[i]._id != _idUser) {
+                } else if (users[i].email.toLowerCase() == email.toLowerCase() && users[i]._id != _idUser) {
                     check = true;
                     break;
                 }
@@ -203,5 +215,6 @@ const change_password = async (id, password, new_password) => {
 module.exports = {
     get_user, get_users, login, register,
     update_user, delete_user, forgot_password, reset_password,
-    get_users_by_username, change_password, updateFcmToken
+    get_users_by_username, change_password, updateFcmToken,
+    updateDateRegister
 };

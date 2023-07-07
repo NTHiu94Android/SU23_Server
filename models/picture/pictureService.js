@@ -6,6 +6,18 @@ const get_all_picture = async () => {
     return pictures;
 };
 
+//Xoa picture
+const deletePictures = async () => {
+    //await picture_model.deleteMany({url: url});
+    const pictures = await picture_model.find({});
+    for (let i = 0; i < pictures.length; i++) {
+        if(pictures[i].url == null || pictures[i].url == undefined){
+            await picture_model.deleteOne({_id: pictures[i]._id});
+        }
+    }
+    
+}
+
 //Lay picture theo id
 const get_picture = async (_idPic) => {
     const picture = await picture_model.findById(_idPic);
@@ -32,5 +44,5 @@ const add_picture = async (url, idSubProduct, idReview) => {
 };
 
 module.exports = { 
-    add_picture, get_picture, get_pictures_by_idProduct, get_pictures_by_idReview, get_all_picture
+    add_picture, get_picture, get_pictures_by_idProduct, get_pictures_by_idReview, get_all_picture, deletePictures
 };

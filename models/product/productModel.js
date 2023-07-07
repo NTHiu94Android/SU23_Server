@@ -6,6 +6,7 @@ const product_model = new Schema({
   image: { type: String },
   idCategory: { type: String },
   idBrand: { type: String },
+  dateInput: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model('Product', product_model);

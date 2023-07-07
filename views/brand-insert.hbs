@@ -6,9 +6,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="images/apple-icon.png">
   <link rel="icon" type="image/png" href="images/favicon.png">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-  <title>
-    iTech - Quản lý sản phẩm
-  </title>
+  <title>iTech</title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
   <!-- Nucleo Icons -->
@@ -22,8 +20,6 @@
   <script language="javascript" src="/javascripts/delete.js"></script>
   <script language="javascript" src="/javascripts/update.js"></script>
   <link id="pagestyle" href="/stylesheets/style.css" rel="stylesheet" />
-
-
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
@@ -55,7 +51,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link active " href="/categories">
+          <a class="nav-link  " href="/categories">
             <div
               class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
@@ -65,7 +61,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link " href="/brands">
+          <a class="nav-link active " href="/brands">
             <div
               class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
@@ -115,12 +111,12 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link " href="/profile.html">
+          <a class="nav-link" href="/profile">
             <div
               class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Profile</span>
+            <span class="nav-link-text ms-1">Trang cá nhân</span>
           </a>
         </li>
 
@@ -138,7 +134,7 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Trang chủ</a></li>
-            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Loại sản phẩm</li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Thêm thương hiệu</li>
           </ol>
         </nav>
       </div>
@@ -149,18 +145,12 @@
         <form role="form" method="post" action="/brands/insert" enctype="multipart/form-data">
           <div class="col-md-8">
             <div class="card">
-              <div class="card-header pb-0">
-                <div class="d-flex align-items-center">
-                  <h4 class="mb-0">Thêm thương hiệu</h4>
-                  <button class="btn btn-primary btn-sm ms-auto" type="submit" id="submit">Lưu</button>
-                </div>
-              </div>
               <div class="card-body">
-                <p class="text-uppercase text-sm">Thêm thông tin</p>
                 <div class="col-md-10">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Tên thương hiệu</label>
-                    <input required class="form-control" type="text" id="name" name="name" minlength="1"/>
+                    <input required class="form-control" type="text" id="name" name="name" minlength="8"
+                      value="{{brands.name}}" />
                   </div>
                 </div>
 
@@ -184,12 +174,14 @@
                     </div>
                   </div>
                   <div class="col-md-12">
-                    <div class="form-group" style="flex-direction: row;">
+                    <div class="form-group" style="display: flex; flex-direction: column;">
                       <label for="example-text-input" class="form-control-label">Xem trước</label>
-                      <img id="image-view" width="200" height="200" src="" />
+                      <img id="image-view" width="200" height="200" src="" style="display: none;" />
                     </div>
                   </div>
                 </div>
+
+                <button class="btn btn-primary btn-sm them-sp" type="submit" id="submit">Lưu</button>
               </div>
             </div>
           </div>
@@ -220,7 +212,7 @@
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+  <script src="/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
 </body>
 
 </html>

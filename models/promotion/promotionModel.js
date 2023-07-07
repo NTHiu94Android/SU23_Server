@@ -5,6 +5,7 @@ const promotion_model = new Schema({
   content: { type: String },
   isSubmit: { type: Boolean, default: false },
   sale: { type: Number },
+  maxSale: { type: Number },
   code: { type: String },
   dayStart: { type: String},
   dayEnd: { type: String },

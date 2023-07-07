@@ -11,6 +11,17 @@ const onGetSubProducts = async () => {
     }
 };
 
+//Lay subProduct theo id
+const onGetSubProductById = async (_id) => {
+    try {
+        const subProducts = await sub_product_service.getSubProducts(_id);
+        const subProduct = subProducts.find(subProduct => subProduct._id == _id);
+        return subProduct;
+    } catch (error) {
+        console.log('Error get sub product by id: ' + error.message);
+    }
+}
+
 //Lay subProducts theo idProduct
 const onGetSubProductsByIdProduct = async (idProduct) => {
     try {
@@ -37,6 +48,26 @@ const onUpdateSubProduct = async (
     }
 };
 
+//Cap nhat ngay cua subProduct
+const onUpdateDateSubProduct = async (_id) => {
+    try {
+        const subProduct = await sub_product_service.updateDateSubProduct(_id);
+        return subProduct;
+    } catch (error) {
+        console.log('Error update date sub product: ' + error.message);
+    }
+};
+
+//Cap nhat so luong subProduct
+const onUpdateQuantitySubProduct = async (_id, quantity) => {
+    try {
+        const subProduct = await sub_product_service.updateQuantitySubProduct(_id, quantity);
+        return subProduct;
+    } catch (error) {
+        console.log('Error update quantity sub product: ' + error.message);
+    }
+};
+
 //Add subProduct
 const onAddSubProduct = async (
     price, description, quantity, color, sale,
@@ -53,17 +84,18 @@ const onAddSubProduct = async (
     }
 };
 
-//Xoa subProduct theo id
+//Xoa subProduct
 const onDeleteSubProduct = async (_id) => {
     try {
-        const res = await sub_product_service.deleteSubProduct(_id);
-        //Neu xoa thanh cong thi tra ve true
-        return res;
+        const subProduct = await sub_product_service.deleteSubProduct(_id);
+        return subProduct;
     } catch (error) {
         console.log('Error delete sub product: ' + error.message);
     }
 }
 
 module.exports = {
-    onGetSubProducts, onGetSubProductsByIdProduct, onAddSubProduct, onUpdateSubProduct, onDeleteSubProduct
+    onGetSubProducts, onGetSubProductsByIdProduct, onAddSubProduct, 
+    onUpdateSubProduct, onGetSubProductById, onUpdateQuantitySubProduct, onUpdateDateSubProduct,
+    onDeleteSubProduct
 };

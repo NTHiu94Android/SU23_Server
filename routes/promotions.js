@@ -19,8 +19,9 @@ router.get('/api/get-all-promotion-by-id-user/:idUser', [authen], async (req, re
 // add promotion
 router.post('/api/add-promotion', [authen], async (req, res) => {
     try {
-        const { content, sale, code, dayStart, dayEnd, condition, idUser } = req.body;
-        const promotion = await promotion_controller.addPromotion(content, sale, code, dayStart, dayEnd, condition, idUser);
+        //content, sale, maxSale, code,  dayStart, dayEnd, condition, idUser
+        const { content, sale, maxSale, code, dayStart, dayEnd, condition, idUser } = req.body;
+        const promotion = await promotion_controller.addPromotion(content, sale, maxSale, code, dayStart, dayEnd, condition, idUser);
         res.json({ error: false, responeTime: new Date(), statusCode: 200, data: promotion });
     } catch (error) {
         res.json({ error: true, responeTime: new Date(), statusCode: 400, data: error.message });

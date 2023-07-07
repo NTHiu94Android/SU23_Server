@@ -11,9 +11,9 @@ const get_address_by_idUser = async (idUser) => {
 };
 
 //Them address
-const add_address = async (body, status, idUser) => {
+const add_address = async (body, status, numberPhone, idUser) => {
     try {
-        const address = await addressService.add_address(body, status, idUser);
+        const address = await addressService.add_address(body, status, numberPhone, idUser);
         return address;
     } catch (error) {
         console.log('Error add address: ' + error.message);
@@ -21,10 +21,10 @@ const add_address = async (body, status, idUser) => {
 };
 
 //Cap nhat address
-const update_address = async (_id, body, status, idUser) => {
+const update_address = async (_id, body, status, numberPhone, idUser) => {
     try {
         const address_update = await addressService
-            .update_address(_id, body, status, idUser);
+            .update_address(_id, body, status, numberPhone, idUser);
         return address_update;
     } catch (error) {
         console.log('Error update address: ' + error.message);
