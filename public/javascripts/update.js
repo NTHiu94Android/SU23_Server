@@ -90,6 +90,39 @@ const editSubProduct = (_id) => {
     window.location.href = `${domain}/sub-products/${_id}/sub-product-update`
 }
 
+const deleteSubProduct = (_id) => {
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this sub-product!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then(async (willDelete) => {
+            if (willDelete) {
+                let url = `/sub-products/${_id}/delete`;
+                let option = {
+                    method: 'GET'
+                }
+                let result = await fetchApi(url, option);
+                if (result.status) {
+                    swal('Delete sub-product successfully', {
+                        icon: 'success'
+                    });
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    swal('Delete failure', {
+                        icon: 'error'
+                    });
+                }
+            } else {
+                swal("Your imaginary file is safe!");
+            }
+        });
+};
+
 const addPicture = (_id) => {
     window.location.href = `${domain}/sub-products/${_id}/add-picture`
 }
