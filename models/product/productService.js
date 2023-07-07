@@ -35,11 +35,13 @@ const update_date_product = async (_id) => {
 
 //Xoa san pham
 const delete_product = async (_id) => {
-    const product = await product_model.findById(_id);
-    await product.remove();
+    const product = await product_model.findByIdAndDelete(_id);
     //Xoa tat ca sub product cua san pham
     await sub_product_model.deleteMany({ idProduct: _id });
-    return product;
+    if(product){
+        return true;
+    }
+    return false;
 };
 
 module.exports = { 

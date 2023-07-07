@@ -8,9 +8,42 @@ const fetchApi = async (url, option) => {
     return res.json();
 }
 
-const edit = (_id) => {
+const editProduct = (_id) => {
     window.location.href = `${domain}/products/${_id}/product-update`
 }
+
+const deleteProduct = (_id) => {
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this imaginary file!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then(async (willDelete) => {
+            if (willDelete) {
+                let url = `/products/${_id}/delete`;
+                let option = {
+                    method: 'GET'
+                }
+                let result = await fetchApi(url, option);
+                if (result.status) {
+                    swal('Delete product successfully', {
+                        icon: 'success'
+                    });
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    swal('Delete failure', {
+                        icon: 'error'
+                    });
+                }
+            } else {
+                swal("Your imaginary file is safe!");
+            }
+        });
+};
 
 const editCategory = (id) => {
     window.location.href = `${domain}/categories/${id}/update`;
@@ -132,7 +165,7 @@ const handleDelivered = async (_idOrder) => {
     const button = document.getElementById('btn-delivered');
     button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`;
     button.disabled = true;
-    
+
     const url = `${domain}/orders/${_idOrder}/update`;
     await fetch(url);
     setTimeout(() => {
@@ -146,7 +179,7 @@ const handleCancel = async (_idOrder) => {
     const button = document.getElementById('btn-cancel');
     button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`;
     button.disabled = true;
-    
+
     const url = `${domain}/orders/${_idOrder}/cancel`;
     await fetch(url);
     setTimeout(() => {

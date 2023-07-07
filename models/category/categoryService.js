@@ -1,4 +1,6 @@
 const category_model = require('../category/categoryModel');
+const brand_model = require('../brand/brandModel');
+const brand_service = require('../brand/brandService');
 
 //Lay category theo id
 const get_category_by_id = async (_id) => {
@@ -21,6 +23,12 @@ const update_category = async (_id, name, image) => {
 //Xoa category theo id
 const delete_category = async (_id) => {
     const category = await category_model.findOneAndDelete({ _id: _id });
+    const brands = await brand_model.find({ idCategory: _id });
+    if (brands) {
+        for (let i = 0; i < brands.length; i++) {
+            await brand_service.delete_brand(brands[i]._id);
+        }
+    }
     //Neu xoa thanh cong thi tra ve true
     if (category) {
         return true;

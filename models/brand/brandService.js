@@ -1,4 +1,6 @@
 const brand_model = require('../brand/brandModel');
+const product_model = require('../product/productModel');
+const product_service = require('../product/productService');
 
 //Lay tat ca brand
 const get_all_brand = async () => {
@@ -37,7 +39,18 @@ const update_brand = async (id, name, image, idCategory) => {
 
 // delete brand
 const delete_brand = async (id) => {
-    await brand_model.findByIdAndDelete(id);
+    const res = await brand_model.findByIdAndDelete(id);
+    const products = await product_model.find({ idBrand: id });
+    if(products){
+        for(let i = 0; i < products.length; i++){
+            console.log(products[i].name);
+            await product_service.delete_product(products[i]._id);
+        }
+    }
+    if(res){
+        return true;
+    }
+    return false;
 };
 
 module.exports = {

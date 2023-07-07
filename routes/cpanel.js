@@ -626,12 +626,14 @@ router.get('/brands/insert', checkAccessTokenMiddleware, async function (req, re
 router.post('/brands/insert', checkAccessTokenMiddleware, multer.single('picture'), async function (req, res, next) {
     try {
         const { name, idCategory } = req.body;
+        let image = '';
         if (!req.file) {
-            res.status(401).redirect('/brands/insert');
-            return;
+            image = 'https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png';
+        }else{
+            const result = await cloudinary.uploader.upload(req.file.path);
+            image = result.secure_url;
         }
-        const result = await cloudinary.uploader.upload(req.file.path);
-        const image = result.secure_url;
+        
         //console.log('Info: ', name, image, idCategory, idBrand);
         if (!name || !image || !idCategory) {
             res.status(401).redirect('/brands/insert')
